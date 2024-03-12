@@ -1,0 +1,49 @@
+{
+  "name": "ggip",
+  "version": "2.0.0",
+  "description": "Official command-line interface for Greip.io",
+  "author": {
+    "name": "Greip.io",
+    "email": "info@greip.io",
+    "url": "https://greip.io/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Greipio/cli.git"
+  },
+  "keywords": [
+    "cli",
+    "geolocation",
+    "geoip",
+    "fraud-detection",
+    "fraud-prevention",
+    "asn-lookup",
+    "bin-lookup",
+    "greip",
+    "api"
+  ],
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "bin": {
+    "ggip": "./index.js"
+  },
+  "preferGlobal": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
+  },
+  "bugs": {
+    "url": "https://github.com/Greipio/cli/issues"
+  },
+  "homepage": "https://github.com/Greipio/cli#readme",
+  "dependencies": {
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1"
+  }
+}
