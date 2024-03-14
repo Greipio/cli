@@ -15,6 +15,7 @@ const {
 } = require("./lib/variables");
 const Me = require("./src/components/me");
 const Lookup = require("./src/components/lookup");
+const Threats = require("./src/components/threats");
 const Country = require("./src/components/country");
 const ASN = require("./src/components/asn");
 const BIN = require("./src/components/bin");
@@ -126,6 +127,30 @@ program
   )
   .showHelpAfterError(
     `${yellowColor}Tip: try '${pjson.name} help lookup' for more information about this command.${defaultColor}`
+  );
+
+program
+  .command("threats")
+  .helpOption(false)
+  .description(
+    "Display information about a given IP address's intelligence threats"
+  )
+  .argument("<ip>", "The IP address to display threats information")
+  .option("-d, --dev", "Return a fake response for development purposes")
+  .addOption(
+    new Option("-f, --format <format>")
+      .choices(["newline", "json"])
+      .default(defaultFormat)
+  )
+  .action((ip, options) => {
+    Token(Threats(ip, options, "threats"));
+  })
+  .addHelpText(
+    "after",
+    `\nExamples:\n  $ ${pjson.name} threats 1.1.1.1\n  $ ${pjson.name} threats 1.1.1.1 --dev\n  $ ${pjson.name} threats 1.1.1.1 --format json`
+  )
+  .showHelpAfterError(
+    `${yellowColor}Tip: try '${pjson.name} help threats' for more information about this command.${defaultColor}`
   );
 
 program
