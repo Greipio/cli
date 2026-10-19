@@ -13,7 +13,7 @@ The official command-line interface (CLI) for Greip.
 [![NPM Package](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/ggip)
 [![Github Repository](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Greipio/cli)
 
-[![npm version](https://badge.fury.io/js/ggip.svg)](https://badge.fury.io/js/gre-geoip)
+[![npm version](https://badge.fury.io/js/ggip.svg)](https://www.npmjs.com/package/ggip)
 &nbsp;
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Greipio/cli?color=green&label=Minified%20size&logo=github)
 &nbsp;
@@ -35,6 +35,12 @@ or
 yarn global add ggip
 ```
 
+## Greip API v2
+
+`ggip` talks to **[Greip API v2](https://v2.greipapi.com)**. After `ggip login <token>`, requests use **Bearer** authentication. JSON output uses the v2 envelope (`success`, `data`, `execution_ms`); field names inside `data` follow v2 (for example `ip.address`, `geo.country_code`, `is_valid`, `risk_level`).
+
+Use **`--format json`** on commands to inspect the full response. The **`--dev`** flag enables test mode (fake data; do not use in production).
+
 # Usage
 
 ```
@@ -53,6 +59,7 @@ login <token> Login to the CLI
 logout Logout from the CLI
 me [options] Display your IP address and location information
 lookup [options] <ip> Lookup a given IP address and display its location information
+threats [options] <ip> Display IP threat / risk score information
 country [options] <country> Display information about a given country
 asn [options] <asn> Display information about a given ASN
 bin [options] <bin> Lookup a given Bank Identification Number (BIN) and display its information
@@ -66,7 +73,7 @@ help [command] display help for command
 
 # Configuration
 
-After installing the CLI, you need to set your API token in order to use it's funcitonalities. This step can be done just by running the `login` command as follows:
+After installing the CLI, set your API token by running the `login` command:
 
 ```bash
 ggip login your-api-key
@@ -89,13 +96,23 @@ This will provide you a list of commands and options.
 
 ## 2. Available options & examples
 
-To list the availabe options and examples for a specific command, just try the help help command with the command want as follows:
+To list the available options and examples for a specific command, run `help` with that command:
 
 ```bash
 ggip help lookup
 ```
 
-This will provide you a list of available optioins with some usage examples for the `lookup` command.
+This will provide a list of available options and examples for the `lookup` command.
+
+### Examples (live)
+
+```bash
+ggip login YOUR_API_KEY
+ggip lookup 1.1.1.1 --format json
+ggip threats 1.1.1.1 --format json
+ggip country PS --format json
+ggip asn AS13335 --format json
+```
 
 # Credits
 
