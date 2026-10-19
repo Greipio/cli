@@ -11,5 +11,14 @@
   "rules": {
     "semi": ["error", "always"],
     "quotes": ["error", "double"]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["__tests__/**/*.js"],
+      "env": {
+        "jest": true,
+        "node": true
+      }
+    }
+  ]
 }

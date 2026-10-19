@@ -1,25 +1,13 @@
-const { sendGetRequest, formatJsonForPrint } = require("../../lib/utils");
+const {
+  sendGetRequest,
+  formatJsonForPrint,
+  isApiSuccess,
+} = require("../../lib/utils");
 const { program } = require("commander");
 
-/**
- * Get the IP address or the Geolocation information of the current user
- *
- * @param {object} data - The options object
- * @param {boolean} data.ip - Display only the IP address
- * @param {boolean} data.dev - Return a fake response for development purposes
- * @param {string} data.modules - The modules to use for validation
- * @param {string} data.format - The format of the response
- *
- * @returns {void}
- *
- * @example
- * Me({ ip: true, dev: true, format: "json" });
- *
- */
 const Me = (data) => {
   const { ip, dev, modules, format } = data;
 
-  // Preparing request query params
   let queryParams = [];
   if (dev === true) {
     queryParams.push("mode=test");
@@ -27,20 +15,20 @@ const Me = (data) => {
   if (typeof modules !== "undefined") {
     queryParams.push(`params=${modules}`);
   }
+  queryParams.push("source=CLI");
   queryParams = "?" + queryParams.join("&");
 
-  // Sending the request
-  sendGetRequest(ip === true ? "ip" : "GeoIP", queryParams)
+  const endpoint = ip === true ? "ip" : "geo/ip";
+
+  sendGetRequest(endpoint, queryParams)
     .then((data) => {
-      if (data.status === "success") {
+      if (isApiSuccess(data)) {
         if (ip === true) {
           console.log(data.data);
+        } else if (format === "json") {
+          console.log(data.data);
         } else {
-          if (format === "json") {
-            console.log(data.data);
-          } else {
-            formatJsonForPrint(data.data);
-          }
+          formatJsonForPrint(data.data);
         }
       } else {
         program.error(data.description);

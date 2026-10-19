@@ -1,48 +1,31 @@
-const { sendGetRequest, formatJsonForPrint } = require("../../lib/utils");
+const {
+  sendPostRequest,
+  formatJsonForPrint,
+  isApiSuccess,
+} = require("../../lib/utils");
 const { program } = require("commander");
 
-/**
- * Profanity check function
- *
- * @param {string} text - The text to check for profanity
- * @param {object} data - The options object
- * @param {boolean} data.dev - Return a fake response for development purposes
- * @param {string} data.format - The format of the response
- * @param {boolean} data.scoreOnly - Display only the profanity score
- * @param {boolean} data.listProfanity - Display the list of profane words
- *
- * @returns {void}
- *
- * @example
- * Profanity("The quick brown fox jumps over the lazy dog", { dev: true, format: "json" });
- *
- */
 const Profanity = (text, data) => {
-  const { dev, format, scoreOnly, listProfanity } = data;
+  const { dev, format } = data;
 
-  // Check if the text is valid
   if (text.length < 2) {
     program.error("Invalid text.");
   }
 
-  // Preparing request query params
-  let queryParams = [];
+  const body = {
+    text,
+    source: "CLI",
+  };
   if (dev === true) {
-    queryParams.push("mode=test");
+    body.mode = "test";
   }
-  if (scoreOnly === true) {
-    queryParams.push("scoreOnly=yes");
+  if (format) {
+    body.format = format.toUpperCase();
   }
-  if (listProfanity === true) {
-    queryParams.push("listBadWords=yes");
-  }
-  queryParams.push(`text=${text}`);
-  queryParams = "?" + queryParams.join("&");
 
-  // Sending the request
-  sendGetRequest("badWords", queryParams)
+  sendPostRequest("score/text", body)
     .then((data) => {
-      if (data.status === "success") {
+      if (isApiSuccess(data)) {
         if (format === "json") {
           console.log(data.data);
         } else {

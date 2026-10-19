@@ -1,4 +1,8 @@
-const { sendGetRequest, formatJsonForPrint } = require("../../lib/utils");
+const {
+  sendGetRequest,
+  formatJsonForPrint,
+  isApiSuccess,
+} = require("../../lib/utils");
 const { program } = require("commander");
 
 /**
@@ -32,13 +36,12 @@ const Lookup = (ip, data) => {
   if (typeof modules !== "undefined") {
     queryParams.push(`params=${modules}`);
   }
-  queryParams.push(`ip=${ip}`);
+  queryParams.push("source=CLI");
   queryParams = "?" + queryParams.join("&");
 
-  // Sending the request
-  sendGetRequest("IPLookup", queryParams)
+  sendGetRequest(`lookup/ip/${encodeURIComponent(ip)}`, queryParams)
     .then((data) => {
-      if (data.status === "success") {
+      if (isApiSuccess(data)) {
         if (format === "json") {
           console.log(data.data);
         } else {
