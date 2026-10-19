@@ -33,10 +33,7 @@ describe("Greip API v2 (live)", () => {
   });
 
   test("bulk lookup", async () => {
-    const res = await sendGetRequest(
-      "geo/ip/bulk",
-      qs("ips=1.1.1.1,8.8.8.8")
-    );
+    const res = await sendGetRequest("geo/ip/bulk", qs("ips=1.1.1.1,8.8.8.8"));
     expect(isApiSuccess(res)).toBe(true);
     expect(res.data["1.1.1.1"]).toBeDefined();
   });
@@ -54,10 +51,7 @@ describe("Greip API v2 (live)", () => {
   });
 
   test("email", async () => {
-    const res = await sendGetRequest(
-      "score/email/name%40domain.com",
-      qs()
-    );
+    const res = await sendGetRequest("score/email/name%40domain.com", qs());
     expect(isApiSuccess(res)).toBe(true);
     expect(res.data.email).toBeDefined();
   });
@@ -65,7 +59,7 @@ describe("Greip API v2 (live)", () => {
   test("phone", async () => {
     const res = await sendGetRequest(
       "score/phone/1234567890",
-      qs("country_code=TR")
+      qs("country_code=TR"),
     );
     expect(isApiSuccess(res)).toBe(true);
   });
@@ -73,7 +67,7 @@ describe("Greip API v2 (live)", () => {
   test("iban", async () => {
     const res = await sendGetRequest(
       "lookup/iban/DE89370400440532013000",
-      qs()
+      qs(),
     );
     expect(isApiSuccess(res)).toBe(true);
     expect(res.data.is_valid).toBe(true);
